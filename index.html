@@ -26,6 +26,8 @@
       return {
         data: false,
         async fetchData() {
+          const res = await fetch('data.json');
+          console.log(res);
         }
       };
     }
