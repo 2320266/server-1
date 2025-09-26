@@ -20,14 +20,19 @@
     <p>
       <button @click="fetchData">データ取得</button>
     </p>
+    <p>
+      {{list}}
+    </p>
   </body>
   <script>
     function dataset() {
       return {
+        list: '',
         data: false,
         async fetchData() {
           const res = await fetch('data.json');
           console.log(res);
+          this.list = await res.json();
         }
       };
     }
