@@ -30,10 +30,24 @@
         id: Math.round(Math.random() * 100),
         data: false,
         async fetchData() {
-          const res = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+          const query = new URLSearchParams({
+            api: localStorage.APIKEY,
+            aaa: 'AAA',
+            'bbb BBB': 'ccc CCC',
+            id: this.id
+          })
+
+          //const res = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+          const res = await fetch('https://httpbin.org/get?$ {query}',{
+            headers: {
+              Authentication: 'ojc',
+              'content-Type': 'application/json'
+            }
+          });
+          
           const obj = await res.json();
           this.data = obj;
-          console.log(JSON.stringify(data, null, 2));
+          console.log(JSON.stringify(this.data, null, 2));
         }
       
       };
