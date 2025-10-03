@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fetch API</title>
+    <style>
+      table,
+      th,
+      td {
+        border: solid black 1px;
+        border-collapse: collapse;
+        padding: 5px 10px;
+      }
+    </style>
+    <script src="https://unpkg.com/petite-vue" defer init></script>
+  </head>
+
+  <body v-scope="dataset()">
+    <p>
+      <button @click="fetchData">データ取得</button>
+    </p>
+    <p v-if="data">
+      {{data}}
+    </p>
+  </body>
+  <script>
+    function dataset() {
+      return {
+        id: Math.round(Math.random() * 100),
+        data: false,
+        async fetchData() {
+          const res = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+          const obj = await res.json();
+          this.data = obj;
+          console.log(JSON.stringify(data, null, 2));
+        }
+      
+      };
+    }
+  </script>
+</html>

@@ -20,19 +20,42 @@
     <p>
       <button @click="fetchData">データ取得</button>
     </p>
-    <p>
-      {{list}}
-    </p>
   </body>
   <script>
     function dataset() {
       return {
-        list: '',
         data: false,
         async fetchData() {
           const res = await fetch('data.json');
+          const L = await res.json();
+          const data = L.lsit;
           console.log(res);
-          this.list = await res.json();
+          console.log(JSON.stringify(data, null, 2));
+
+          // table要素
+          const table = document.createElement('table');
+          document.body.appendChild(table);
+
+          // ヘッダー（th要素）
+          const record = document.createElement('tr');
+          table.appendChild(record);
+          for (const category of ['名前', 'タイプ', '重さ', '特性']) {
+            const header = document.createElement('th');
+            header.textContent = category;
+            record.appendChild(header);
+          }
+
+          // コンテンツ（td要素）
+          for (const item of data) {
+            const record = document.createElement('tr');
+            table.append(record);
+            for (const d in item) {
+              const cell = document.createElement('td');
+              cell.textContent = item[d];
+              record.appendChild(cell);
+            }
+          }
+
         }
       };
     }
