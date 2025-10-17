@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POST リクエスト</title>
+  <script src="https://unpkg.com/petite-vue" defer init></script>
+</head>
+
+<body v-scope="dataset()">
+  <p>
+    <button @click="fetchData">データ取得</button>
+  </p>
+  <!--
+  <p v-if="data">{{data.data}}</p>
+  -->
+  <p v-if="data">{{data.json.ojk.title}}</p><!--コンソールの"json":{}部分のタイトルを参照する-->
+</body>
+
+<script>
+  function dataset() {
+    return {
+      data: false,
+      async fetchData() {
+        /*
+        const body = new FormData();
+        body.append('key', 5);
+        body.append('name', 'ojk');
+        body.append('ojk', JSON.stringify({title: 'あ', complete: false}));
+        */
+
+        const body = {
+          key: 5,
+          name: 'ojk',
+          ojk: {title: 'タイトル', complete: false}
+        }
+
+        const url = 'https://httpbin.org/post';
+        const res = await fetch(url,{
+          method: 'POST',
+          body: JSON.stringify(body),
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+          }
+        });
+         
+        const obj = await res.json();
+        this.data = obj;
+        console.log(JSON.stringify(this.data, null, 2));
+      }
+    }
+  }
+</script>
+</html>
